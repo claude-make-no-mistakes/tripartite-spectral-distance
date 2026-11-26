@@ -1,0 +1,5 @@
+{"four_vertex_seeds": 11, "extensions_checked": 30, "admitted": ["CN", "Ck", "DNG", "DNg"]}
+{"n": 3, "exact_competitors": 17}
+{"n": 4, "exact_competitors": 35}
+{"n": 5, "exact_competitors": 59}
+{"symbolic_inequalities": "passed"}

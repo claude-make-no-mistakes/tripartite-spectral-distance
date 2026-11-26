@@ -1,0 +1,5 @@
+{"order": 5, "isomorphism_classes": 34, "invertible": 9, "least_certified_bounds": ["6765/5473", "4873858610422150449/8178118667153748196"]}
+{"order": 6, "isomorphism_classes": 156, "invertible": 57, "least_certified_bounds": ["163676445/86456981", "78111671386245191457173/98817595365630470437602"]}
+{"order": 7, "isomorphism_classes": 1044, "invertible": 354, "least_certified_bounds": ["40346/15577", "32081687365536347871788624834813/22839746993446347049800042147600"]}
+{"n": 3, "reference_squared_distance_upper": "987623640331594740732064/1718215991392264927487001"}
+{"n": 4, "reference_squared_distance_upper": "8492677312563408173033/15785187341017589194050"}
