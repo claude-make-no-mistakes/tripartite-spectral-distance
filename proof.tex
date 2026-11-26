@@ -1,121 +1,317 @@
 \documentclass[10pt]{article}
 \usepackage[letterpaper,margin=0.95in]{geometry}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath,amssymb,amsthm}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
 \usepackage[hidelinks]{hyperref}
-\setlength{\parskip}{0.2em}
-\setlength{\parindent}{0pt}
-\title{The unique nearest graph to the balanced complete tripartite graph}
-\author{}\date{}
-\begin{document}\maketitle
 
-Let $D_1$ be the $\ell^1$ distance between sorted adjacency spectra and let $D_2$ denote the \textbf{squared} $\ell^2$ distance. For every $n\geq 3$, the unique graph up to isomorphism minimizing either distance to $K_{n,n,n}$ over simple graphs on $3n$ vertices other than $K_{n,n,n}$ is
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
 
+\title{The Unique Nearest Graph to the Balanced Complete Tripartite Graph}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $D_1$ and $D_2$ denote the $\ell^1$ (Manhattan) distance and the squared $\ell^2$ (Euclidean) distance, respectively, between sorted adjacency spectra of graphs of the same order. We prove that for every $n \geq 3$, the graph $H_n = (n-1)K_1 \vee (K_1 \sqcup K_{n,n})$ is the unique simple graph of order $3n$ other than $K_{n,n,n}$, up to isomorphism, that minimizes $D_1(K_{n,n,n}, G)$, and likewise the unique minimizer of $D_2(K_{n,n,n}, G)$. This settles Conjecture~20 of Jovanovi\'{c}, Sedlar, and \v{S}krekovski~\cite{JSS2026}. By the same induced-subgraph interlacing method, we also resolve Problem~21 of~\cite{JSS2026}, showing that for every $n \geq 3$, any simple graph $G$ of order $3n$ (connected or disconnected) with $D_2(K_{n,n,n}, G) \leq 2/3$ has adjacency rank at most five.
+\end{abstract}
+
+\section{Introduction}
+
+For two simple graphs $G$ and $H$ of the same order $N$ with adjacency spectra $\alpha_1 \geq \cdots \geq \alpha_N$ and $\gamma_1 \geq \cdots \geq \gamma_N$, define their Manhattan adjacency-spectral distance and squared Euclidean adjacency-spectral distance by
 \[
-H_n=(n-1)K_1\vee(K_1\sqcup K_{n,n}).
+D_1(G,H) = \sum_{i=1}^N |\alpha_i - \gamma_i|, \qquad
+D_2(G,H) = \sum_{i=1}^N (\alpha_i - \gamma_i)^2.
 \]
-
-This proves Conjecture 20 in \href{https://arxiv.org/html/2610.18636v2#S5}{Jovanovi\'{c}, Sedlar, and \v{S}krekovski, arXiv:2610.18636v2}. Their Theorem 17 supplies the asserted limits. The proof uses exact finite checks for induced graphs and the three smallest values of $n$, followed by uniform inequalities. All graphs and candidates in the proof may be disconnected.
-
-\section{Bounds from induced subgraphs}
-
-Write $N=3n$. The target spectrum in descending order is $2n,0,\dots,0,-n,-n$. Let $\alpha_1\geq\cdots\geq\alpha_N$ be the spectrum of a candidate, and let $\beta_1\geq\cdots\geq\beta_s$ be the spectrum of an induced subgraph of order $s\leq N-2$. Interlacing gives $\alpha_i\geq\beta_i\geq\alpha_{N-s+i}$. In the zero coordinates of the target, the positive spectral errors are at least $\beta_i^+=\max(0,\beta_i)$ for $2\leq i\leq s$ where the bound is positive. The negative error magnitudes are at least $\beta_j^-=\max(0,-\beta_j)$ in coordinates $N-s+j$ for $1\leq j\leq s-2$ where the bound is positive. These nonzero contributions have disjoint support by interlacing. The trace of each adjacency matrix is zero, so total positive and negative errors agree in magnitude. Consequently,
-
+Minimizing $D_2$ is equivalent to minimizing the Euclidean spectral distance $\sqrt{D_2}$. For each integer $n \geq 3$, consider the balanced complete tripartite graph $K_{n,n,n}$ on $N = 3n$ vertices and the graph
 \[
-D_1\geq 2\max\left(\sum_{i=2}^s\beta_i^+,\sum_{j=1}^{s-2}\beta_j^-\right),\qquad
-D_2\geq\sum_{i=2}^s(\beta_i^+)^2+\sum_{j=1}^{s-2}(\beta_j^-)^2.\tag{1}
+H_n = (n-1)K_1 \vee (K_1 \sqcup K_{n,n}),
 \]
+which also has order $3n$ and is not isomorphic to $K_{n,n,n}$.
 
-Symmetric elimination on principal indices increases the order of an invertible principal submatrix by one or two. Indeed, a nonzero Schur complement has a nonzero diagonal entry or has a nonzero off-diagonal entry and zero diagonal. These give an invertible principal pivot of order one or two, respectively. The Schur complement of the enlarged submatrix retains the remaining rank. Starting with the empty matrix, if the rank is at least five, an invertible principal submatrix of order five or six occurs at the first crossing of order five.
+\begin{theorem}[Conjecture~20 of~\cite{JSS2026}]\label{thm:conj20}
+For every $n \geq 3$, the graph $H_n$ is the unique simple graph on $3n$ vertices other than $K_{n,n,n}$, up to isomorphism, minimizing $D_1(K_{n,n,n}, G)$, and it is also the unique minimizer of $D_2(K_{n,n,n}, G)$.
+\end{theorem}
 
-\texttt{\detokenize{verify_rank_reduction.py}} checks all nonsingular adjacency matrices on five and six vertices up to isomorphism using rational root intervals for the integer characteristic polynomials. It checks the completeness of the graph atlas at each order by covering all labeled graphs with the disjoint permutation orbits of its representatives. Every nonsingular case in these orders has lower bounds in (1) strictly above $11/9$ and $7/12$, respectively.
+Theorem~17 of~\cite{JSS2026} already establishes the asymptotic limits asserted in Conjecture~20. All candidate graphs considered throughout this paper are simple graphs on $3n$ vertices and may be disconnected. Our rank-reduction argument also answers Problem~21 of~\cite{JSS2026}.
 
-Theorem 6 and Remark 7 in the source give $D_1(K_{n,n,n},H_n)<1+2/(3n)\leq 11/9$. For $n\geq5$, their Lemma 5 and Theorem 6 bound the squared distance by the maximum of $2(x^2-xy+y^2)$ on $0\leq x\leq 17/30$, $2/5\leq y\leq 1/2$. This convex function has maximum $259/450<7/12$ on the rectangle. The verifier checks $D_2(K_{n,n,n},H_n)<7/12$ for $n=3,4$ by rational root intervals. Hence any competitor achieving either incumbent distance has rank at most four.
+\begin{theorem}[Problem~21 of~\cite{JSS2026}]\label{thm:prob21}
+For every $n \geq 3$, every simple graph $G$ of order $3n$ (possibly disconnected) satisfying $D_2(K_{n,n,n}, G) \leq 2/3$ has adjacency rank at most five.
+\end{theorem}
 
-The same method answers the source's \textbf{Problem 21}. If the rank is at least six, the first crossing of order six yields an invertible principal submatrix of order six or seven. For these orders every squared lower bound in (1) exceeds $2/3$, as checked by the same script with \texttt{\detokenize{--problem21}}. Therefore $D_2\leq 2/3$ implies rank at most five, including for disconnected graphs.
+The proofs combine exact finite verifications---using rational root intervals for integer characteristic polynomials and exhaustive orbit checks on small graph atlases---with uniform spectral and matrix inequalities valid for all $n \geq 3$ (and, after checking $n \in \{3,4,5\}$ directly, all $n \geq 6$).
 
-\section{Small templates}
+\section{Bounds from induced subgraphs and rank reduction}
 
-A graph with no triangles and adjacency rank at most four is bipartite. Otherwise a shortest odd cycle would have odd length at least five and would be induced. An odd cycle of length $k$ has the nonzero eigenvalues $2\cos(2\pi j/k)$ for $0\leq j<k$, contradicting the rank bound. A bipartite graph has extreme adjacency eigenvalues $\rho,-\rho$, including $\rho=0$ for the empty graph. Its squared distance is at least $(\rho-2n)^2+(n-\rho)^2\geq n^2/2$, and its $\ell^1$ distance is at least $n$. Neither can compete.
-
-For a rank-$r$ adjacency matrix with an invertible principal seed $B$ of order $r$, write the matrix in blocks $\left(\begin{smallmatrix}B&C\\C^T&D\end{smallmatrix}\right)$. The Schur complement gives $D=C^T B^{-1}C$. Each vertex's adjacency signature to the seed is a binary vector $v$, satisfying $v^T B^{-1}v=0$. Two signatures $v,w$ have adjacency $v^T B^{-1}w\in\{0,1\}$. Identical signatures are independent vertices with identical neighbors. The all-zero signature gives the isolated vertices. Thus the entire graph is a blowup by independent classes of a template in which we keep one vertex per nonzero signature, together with isolated vertices. Every such template is induced in the graph.
-
-If the graph contains a triangle and has rank three, use that triangle as the seed. The only possible nonzero signatures are its three column vectors, as checked by direct substitution into $B^{-1}=\tfrac12 J-I$. Thus the graph is complete tripartite plus isolates. If the graph has rank four, symmetric elimination yields a seed of order four. \texttt{\detokenize{verify_conjecture20.py}} checks the entire four-vertex atlas by permutation orbits and enumerates every compatible subset of the binary signatures. Every resulting template has order at most six, so (1) applies even when $n=3$. A template surviving at least one metric is a path on four vertices, a paw, a bull, or a house. The path is bipartite. The other three consist of a triangle and one or two extra vertices. Each extra vertex is adjacent to one triangle vertex. When there are two extra vertices, they attach to different triangle vertices and may be adjacent to each other.
-
-\section{Eliminate templates with two or more outside vertices}
-
-Call the three parts from the triangle the triangle classes. In a blowup of the paw with at least two vertices outside these classes, keep two outside vertices, including at least one original pendant type. Convert another outside vertex to the same pendant type if necessary. Move any other pendant vertices into one triangle class different from their hub and assign all remaining isolates to triangle classes. All original edges are preserved and the new graph has two outside vertices, each joined to one full triangle class. In a blowup of the bull or house, keep one vertex from each outside class. If the kept vertex of the first class attaches to triangle class $A$ and the kept vertex of the second attaches to class $B$, move the other first-class vertices into $B$ and the other second-class vertices into $A$. This preserves all original edges, including edges between the two outside classes in the house. Assign any isolates to the third triangle class. The resulting graph has a complete tripartite graph on $S=3n-2$ vertices and two additional vertices, each joined to a full class and optionally joined to each other.
-
-We show that any such dominating graph has spectral radius at most $r=2n-2/3$. The symmetric quotient on the triangle classes has the form $vv^T-\operatorname{diag}(a_i)$, where $a_i>0$ are the class sizes and $v_i=\sqrt{a_i}$. The adjacency matrix $F$ on the outside vertices has operator norm at most one. Thus $(rI-F)^{-1}\preceq I/(r-1)$. Write $b_i$ for the number of outside vertices attached to class $i$, so $\sum_i b_i=2$. In the Schur complement of $rI$ minus the quotient it is sufficient to prove
-
+Write $N = 3n$ with $n \geq 3$. The adjacency spectrum of $K_{n,n,n}$ in nonincreasing order is
 \[
-\operatorname{diag}(r+k_i a_i)-vv^T\succeq0,\qquad k_i=1-b_i/(r-1)>0.
+(\gamma_1, \gamma_2, \dots, \gamma_{N-2}, \gamma_{N-1}, \gamma_N) = (2n, 0, \dots, 0, -n, -n).
 \]
+For a candidate graph $G$ of order $N$, we abbreviate $D_1 = D_1(K_{n,n,n}, G)$ and $D_2 = D_2(K_{n,n,n}, G)$, and write $\alpha_1 \geq \cdots \geq \alpha_N$ for its adjacency spectrum.
 
-Equivalently $\sum_i a_i/(r+k_i a_i)\leq1$. Set $W=\sum_i 1/k_i$. Weighted Jensen for the concave function $x/(r+x)$ gives the upper bound $WS/(Wr+S)$. Convexity in $b_i$ gives $W\leq 2+1/(1-2/(r-1))$. Putting $b=2r/(r-1)$, this last bound is $2+1/(1-b/r)$. Since $WS/(Wr+S)$ increases with $W$, it is at most one if
+\begin{lemma}\label{lem:interlacing}
+Let $F$ be an induced subgraph of $G$ of order $s \leq N - 2$ with adjacency spectrum $\beta_1 \geq \cdots \geq \beta_s$. Set $\beta_i^+ = \max(0, \beta_i)$ and $\beta_j^- = \max(0, -\beta_j)$. Then
+\begin{equation}\label{eq:interlacing}
+D_1 \geq 2\max\left(\sum_{i=2}^s \beta_i^+,\; \sum_{j=1}^{s-2} \beta_j^-\right), \qquad
+D_2 \geq \sum_{i=2}^s (\beta_i^+)^2 + \sum_{j=1}^{s-2} (\beta_j^-)^2.
+\end{equation}
+\end{lemma}
 
+\begin{proof}
+By Cauchy interlacing, $\alpha_i \geq \beta_i \geq \alpha_{N-s+i}$ for $1 \leq i \leq s$. Since $s \leq N - 2$, every index $i \in \{2,\dots,s\}$ satisfies $2 \leq i \leq N-2$, so $\gamma_i = 0$ and $\alpha_i - \gamma_i = \alpha_i \geq \beta_i$. Thus whenever $\beta_i > 0$, we have $\alpha_i > 0$ and $(\alpha_i - \gamma_i)^+ \geq \beta_i^+$. Similarly, for $1 \leq j \leq s - 2$, the index $k = N - s + j$ satisfies $3 \leq k \leq N - 2$, so $\gamma_k = 0$ and $\alpha_k - \gamma_k = \alpha_k \leq \beta_j$; whenever $\beta_j < 0$, we have $\alpha_k < 0$ and $(\alpha_k - \gamma_k)^- \geq \beta_j^-$.
+
+Because $\alpha_i > 0$ on the positive support and $\alpha_k < 0$ on the negative support, these two sets of coordinates in $\{2, \dots, N-2\}$ are disjoint. Summing squares over these disjoint coordinates gives the second inequality in~\eqref{eq:interlacing}. Finally, since both adjacency matrices have trace zero, $\sum_{m=1}^N (\alpha_m - \gamma_m) = 0$, whence
 \[
-3r^2-2(b+S)r+bS\geq 0.
+\sum_{m=1}^N (\alpha_m - \gamma_m)^+ = \sum_{m=1}^N (\alpha_m - \gamma_m)^- = \frac{1}{2} D_1.
 \]
+Bounding each half from below by $\sum_{i=2}^s \beta_i^+$ and $\sum_{j=1}^{s-2} \beta_j^-$ yields the first inequality in~\eqref{eq:interlacing}.
+\end{proof}
 
-At $n=3+m$ the left side is $4(3m+2)(3m+8)/(3(6m+13))>0$. By entrywise domination, the original graph has spectral radius at most $2n-2/3$ as well.
+\begin{lemma}\label{lem:elimination}
+Let $M$ be a real symmetric matrix of rank $r$. Then there exists a nested sequence of invertible principal submatrices of $M$ of orders $0 = k_0 < k_1 < \cdots < k_t = r$ with $k_{\ell} - k_{\ell-1} \in \{1,2\}$ for each $1 \leq \ell \leq t$. In particular, $M$ has an invertible principal submatrix of order $r$; if $r \geq 5$, it has one of order $5$ or $6$; and if $r \geq 6$, it has one of order $6$ or $7$.
+\end{lemma}
 
-The same bound holds for a complete tripartite graph with at least one isolated vertex. Its live order is $S\leq3n-1$, and ordinary Jensen gives $\sum_i a_i/(2S/3+a_i)\leq1$, hence $\rho\leq 2S/3$. For any candidate, the two smallest eigenvalues must be negative because its errors there are bounded by $11/9$ or by $\sqrt{7/12}$, both less than $n$. Thus with rank at most four and positive spectral radius, only the at most four nonzero coordinates can contribute errors. If the top coordinate has error of magnitude at least $2/3$, trace zero gives $D_1\geq4/3$, and Cauchy--Schwarz gives $D_2\geq(2/3)^2(1+1/3)=16/27>7/12$. This leaves just complete tripartite graphs of full order and full-order paw blowups with a single pendant-type vertex.
+\begin{proof}
+Suppose $B$ is an invertible principal submatrix of $M$ of order $k < r$, and partition $M = \bigl(\begin{smallmatrix} B & C \\ C^T & D \end{smallmatrix}\bigr)$ after permuting rows and columns symmetrically. Its Schur complement $S = D - C^T B^{-1} C$ is real symmetric of rank $r - k \geq 1$, so $S \neq 0$. If $S$ has a nonzero diagonal entry $s_{ii}$, adjoining index $i$ to $B$ gives a principal submatrix $B'$ of order $k + 1$ with $\det(B') = \det(B) s_{ii} \neq 0$. Otherwise $S$ has zero diagonal and some nonzero off-diagonal entry $s_{ij} = s_{ji}$; adjoining $\{i,j\}$ gives a principal submatrix $B'$ of order $k + 2$ with $\det(B') = \det(B)(-s_{ij}^2) \neq 0$. In either case, the new Schur complement retains the remaining rank $r - \operatorname{order}(B') \geq 0$ (in particular, $\operatorname{order}(B') \leq r$, so the process terminates at $k_t = r$). Starting from the empty matrix ($k_0 = 0$), the first crossing of order $5$ (when $r \geq 5$) occurs at order $5$ or $6$, and the first crossing of order $6$ (when $r \geq 6$) occurs at order $6$ or $7$.
+\end{proof}
 
-\section{The remaining complete tripartite graphs}
+\begin{proposition}\label{prop:rank-reduction}
+Theorem~\ref{thm:prob21} holds. Moreover, for every $n \geq 3$, the incumbent $H_n$ satisfies
+\begin{equation}\label{eq:incumbent}
+D_1(K_{n,n,n}, H_n) < 1 + \frac{2}{3n} \leq \frac{11}{9}, \qquad
+D_2(K_{n,n,n}, H_n) < \frac{7}{12},
+\end{equation}
+and every graph $G$ of order $3n$ achieving $D_1 \leq D_1(K_{n,n,n}, H_n)$ or $D_2 \leq D_2(K_{n,n,n}, H_n)$ has adjacency rank at most four.
+\end{proposition}
 
-The verifier compares these graphs and the remaining paw blowups directly by rational intervals for $n=3,4,5$, excluding the target and $H_n$. Suppose henceforth that $n\geq6$. If a complete tripartite graph with class sizes $a,c,d$ competes in either metric, both of its negative eigenvalues have magnitudes strictly between $l=n-7/9$ and $h=n+7/9$. For its symmetric quotient $Q=vv^T-\operatorname{diag}(a,c,d)$, $lI+Q$ has two negative eigenvalues and $hI+Q$ is positive definite. Since adding a positive rank-one matrix cannot increase the number of negative eigenvalues, at least two of $a,c,d$ are at least $n$. Also at most one can be above $n$, since a vector supported on two oversized classes and orthogonal to $v$ would give a negative quadratic form for $hI+Q$. Thus the sizes are $(n-k,n,n+k)$, in some order. For $k\geq2$, the vector orthogonal to $v$ supported on the classes of sizes $n,n+k$ requires
+\begin{proof}
+The script \texttt{\detokenize{verify_rank_reduction.py}} checks all invertible adjacency matrices on $5$ and $6$ vertices up to isomorphism using exact rational root intervals for their integer characteristic polynomials. Completeness and irredundancy of the graph atlas at each order $s$ are certified by partitioning all $2^{\binom{s}{2}}$ labeled simple graphs into the disjoint permutation orbits of the atlas representatives. Since $N - 2 = 3n - 2 \geq 7$ for all $n \geq 3$, Lemma~\ref{lem:interlacing} applies for $s \in \{5, 6, 7\}$. Every invertible graph of order $5$ or $6$ yields lower bounds in~\eqref{eq:interlacing} strictly exceeding $11/9$ for $D_1$ and $7/12$ for $D_2$. Furthermore, with \texttt{\detokenize{--problem21}}, the script verifies that every invertible graph of order $6$ or $7$ yields a lower bound on $D_2$ in~\eqref{eq:interlacing} strictly exceeding $2/3$. By Lemma~\ref{lem:elimination}, any graph of order $3n$ ($n \geq 3$) with adjacency rank at least $6$ has an invertible principal submatrix of order $6$ or $7$, hence satisfies $D_2 > 2/3$. This proves Theorem~\ref{thm:prob21}.
 
+For the incumbent bounds~\eqref{eq:incumbent}, Theorem~6 and Remark~7 of~\cite{JSS2026} give $D_1(K_{n,n,n}, H_n) < 1 + 2/(3n) \leq 11/9$ for all $n \geq 3$, and for $n \geq 5$, Lemma~5 and Theorem~6 of~\cite{JSS2026} bound $D_2(K_{n,n,n}, H_n)$ by the maximum of the strictly convex function $2(x^2 - xy + y^2)$ on the rectangle $0 \leq x \leq 17/30$, $2/5 \leq y \leq 1/2$. Evaluating the four corners (checked in \texttt{\detokenize{verify_rank_reduction.py}}) gives maximum $259/450 < 7/12$. (Directly, the quotient polynomial of $H_n$ from Section~\ref{sec:paw} factors as $(x+n)q(x)$ with $q(x) = x^3 - nx^2 - (2n^2-n-1)x + n(n-1)$; sign evaluations at $-n$, $0$, $2/5$, $1/2$, $2n - 1/2 - 1/(3n)$, $2n - 17/30$, and $2n$ immediately yield these bounds.) For $n \in \{3, 4\}$, \texttt{\detokenize{verify_rank_reduction.py}} verifies $D_2(K_{n,n,n}, H_n) < 7/12$ by rational root intervals.
+
+Consequently, if a graph $G$ of order $3n$ has adjacency rank at least $5$, Lemma~\ref{lem:elimination} produces an invertible induced subgraph of order $5$ or $6$, forcing $D_1 > 11/9 > D_1(K_{n,n,n}, H_n)$ and $D_2 > 7/12 > D_2(K_{n,n,n}, H_n)$. Thus any competitor achieving either incumbent distance has adjacency rank at most four.
+\end{proof}
+
+\section{Rank-at-most-four structure and small templates}
+
+We say a graph $G$ of order $3n$ \emph{competes} if $D_1(K_{n,n,n}, G) < 11/9$ or $D_2(K_{n,n,n}, G) < 7/12$. By Proposition~\ref{prop:rank-reduction}, every competing graph has adjacency rank at most four.
+
+\begin{lemma}\label{lem:triangle}
+Every competing graph $G$ contains a triangle, and therefore has adjacency rank $3$ or $4$.
+\end{lemma}
+
+\begin{proof}
+Suppose $G$ is triangle-free and has adjacency rank at most $4$. Then $G$ must be bipartite: otherwise, a shortest odd cycle $C_k$ in $G$ has odd length $k \geq 5$ and is chordless, hence induced. Its eigenvalues $2\cos(2\pi j/k)$ ($0 \leq j < k$) are all nonzero because $k$ is odd, so $\operatorname{rank}(A(G)) \geq \operatorname{rank}(A(C_k)) = k \geq 5$, a contradiction.
+
+For any bipartite graph on $3n$ vertices, the adjacency spectrum is symmetric about $0$, so its extreme eigenvalues are $\rho$ and $-\rho$ for some $\rho \geq 0$ (including $\rho = 0$ for the empty graph). Therefore
 \[
-h>\frac{2n(n+k)}{2n+k}\geq n+\frac{n}{n+1}>h,
+D_1 \geq |2n - \rho| + |-\rho - (-n)| \geq n \geq 3 > \frac{11}{9},
 \]
-
-a contradiction. The case $k=0$ is the target. The case $k=1$ is worse than $H_n$ in both metrics by Theorem 15 of the source.
-
-\section{Paw blowups with one pendant vertex}
-
-Let $a$ be the class adjacent to the pendant vertex, and $c,d$ the other two triangle sizes, so $a+c+d=3n-1$. The four nonzero eigenvalues have two positive and two negative signs. For instance this follows from the inertia of the induced paw and rank four. Its spectral radius satisfies $\rho\leq 2n-12/25$. Indeed, eliminate the single outside vertex at $r=2n-12/25$. The Jensen argument above now has $S=3n-1$, $b=1$, and $W=2+1/(1-1/r)$ exactly. The sufficient polynomial $3r^2-2(1+S)r+S$ is positive for $n\geq3$, as checked by expansion in $n-3$.
-
-For a competing paw blowup both negative magnitudes lie in $(l,h)$, where $l=n-11/18$ and $h=n+11/18$. For $D_1$ this follows from trace zero and $D_1<11/9$. For $D_2$ it follows from the separate top-error contribution of at least $(12/25)^2$ and $7/12-(12/25)^2<(11/18)^2$.
-
-After eliminating the pendant at $u=l,h$ in $uI+Q$, the reduced block is
-
+and
 \[
-\operatorname{diag}\bigl(u-a(1+1/u),u-c,u-d\bigr)+vv^T,
-\qquad v=(\sqrt a,\sqrt c,\sqrt d).
+D_2 \geq (\rho - 2n)^2 + (n - \rho)^2 = 2\Bigl(\rho - \frac{3n}{2}\Bigr)^2 + \frac{n^2}{2} \geq \frac{n^2}{2} \geq \frac{9}{2} > \frac{7}{12}.
 \]
+Hence no bipartite graph competes. Thus $G$ contains a triangle $K_3$, which has adjacency rank $3$, so $\operatorname{rank}(A(G)) \in \{3, 4\}$.
+\end{proof}
 
-At $l$ at least two of $a(1+1/l),c,d$ exceed $l$. At $h$ at most one of $a(1+1/h),c,d$ can exceed $h$. In addition, the two-class vector orthogonal to $v$ supported on the classes of sizes $a,c$ gives the necessary inequality
+\begin{lemma}\label{lem:blowup}
+Let $G$ be a simple graph whose adjacency matrix $A$ has rank $r$, and let $B$ be an invertible principal submatrix of $A$ of order $r$. Then $G$ is obtained from an induced twin-free template $T$ (containing the vertices of $B$) by replacing each vertex of $T$ with a nonempty independent set of false twins and adding zero or more isolated vertices.
+\end{lemma}
 
-\[
-h>\frac{ac(2+1/h)}{a+c}.\tag{2}
-\]
+\begin{proof}
+Write $A = \bigl(\begin{smallmatrix} B & C \\ C^T & D \end{smallmatrix}\bigr)$. Since $\operatorname{rank}(A) = \operatorname{rank}(B) = r$, the Schur complement $D - C^T B^{-1} C$ vanishes, so $D = C^T B^{-1} C$. Define the \emph{signature} of each vertex to be its column $v \in \{0,1\}^r$ in $\begin{pmatrix} B & C \end{pmatrix}$ (its adjacency vector to the seed vertices of $B$). Because $B = B^T B^{-1} B$ and $C = B^T B^{-1} C$, every pair of vertices with signatures $v, w$ has adjacency entry $v^T B^{-1} w \in \{0, 1\}$, and each signature satisfies $v^T B^{-1} v = 0$.
 
-The same inequality holds with $d$ in place of $c$. Between $c,d$ the corresponding bound is $h>2cd/(c+d)$.
+Vertices with the all-zero signature are isolated. Vertices with the same nonzero signature are nonadjacent and share identical neighborhoods (false twins). Since $B$ is invertible, the $r$ seed vertices have distinct nonzero signatures. Keeping one representative vertex per nonzero signature occurring in $G$ (including the $r$ seed vertices) produces an induced twin-free subgraph $T$ of which $G$ is a blowup by nonempty independent classes, together with the isolated vertices.
+\end{proof}
 
+We now classify the templates that can occur for a competing graph $G$:
 \begin{itemize}
-\item If $a\leq n-2$, then $a(1+1/l)<n-1<l$, so both $c,d\geq n$, with at most one above $n$. Thus they are $n,n+k$ with $k=n-1-a\geq1$. For $k\geq2$ the two-class bound $2n(n+k)/(2n+k)\geq n+n/(n+1)>h$ is impossible. This leaves $(a,c,d)=(n-2,n,n+1)$ up to swapping $c,d$.
-\item If $a\geq n+1$, then $a(1+1/h)>h$, both $c,d\leq n$ and one equals $n$ by the condition at $l$. The right side of (2) increases with $a$, and already exceeds $h$ at $a=n+1,c=n$ for all $n\geq6$.
-\item If $a=n$, then $a(1+1/h)>h$, so $c,d\leq n$ and their sum is $2n-1$. This leaves $(n,n-1,n)$.
-\item If $a=n-1$, then $c+d=2n$. The right side of (2) increases with $c$ and already exceeds $h$ at $a=n-1,c=n+2$ for all $n\geq6$. The surviving pairs are $(n,n)$ and $(n-1,n+1)$. The first gives $H_n$.
+\item \emph{Rank $3$.} By Lemma~\ref{lem:triangle}, $G$ contains a triangle; take $B = J_3 - I_3$ as the seed. Its inverse is $B^{-1} = \frac{1}{2}J_3 - I_3$. For a binary vector $v \in \{0,1\}^3$ of weight $w = \sum_i v_i$, we have $v^T B^{-1} v = \frac{1}{2}w(w-2)$, which vanishes only for $w = 0$ (isolates) and $w = 2$ (the three columns of $B$). Thus $T \cong K_3$, and $G$ is a complete tripartite graph plus zero or more isolated vertices.
+
+\item \emph{Rank $4$.} By Lemma~\ref{lem:elimination}, $G$ has an invertible principal seed $B$ of order $4$. The script \nolinkurl{verify_conjecture20.py} verifies completeness of the $4$-vertex graph atlas via permutation orbits and enumerates all $30$ compatible twin-free signature extensions (omitting isolates) across all invertible $4$-vertex seeds. Every resulting template $T$ has order at most $6 \leq N - 2$, so Lemma~\ref{lem:interlacing} applies for all $n \geq 3$. Checking~\eqref{eq:interlacing} on each template leaves only four isomorphism types surviving at least one metric: the path $P_4$, the paw, the bull, and the house. The path $P_4$ is bipartite (ruled out by Lemma~\ref{lem:triangle}). Each of the remaining three consists of a triangle together with one or two extra vertices, where each extra vertex is adjacent to a single triangle vertex; when there are two extra vertices (bull or house), they attach to distinct triangle vertices and are either nonadjacent (bull) or adjacent (house).
 \end{itemize}
 
-The two inequalities in (2) used to exclude cases are checked by clearing positive denominators and expanding in $n-6$. The characteristic polynomial of the four-dimensional quotient is
+\section{Eliminating templates with two or more outside vertices}
 
+In a blowup of the paw, bull, or house (with possible isolates), call the three nonempty independent sets corresponding to the triangle vertices the \emph{triangle classes}, and call all other vertices (pendant-type classes and isolated vertices) \emph{outside vertices}.
+
+\begin{proposition}\label{prop:outside}
+Every competing graph $G$ is either a complete tripartite graph of full order $3n$ or a full-order blowup of the paw with a single pendant vertex (and no isolated vertices).
+\end{proposition}
+
+\begin{proof}
+We first show that every other surviving candidate has spectral radius $\rho(G) \leq r := 2n - 2/3$.
+
+\emph{Case 1: Blowups of the paw with at least two outside vertices, or blowups of the bull or house.}
+We construct an edge-supergraph $G'$ on the same $3n$ vertices consisting of a complete tripartite graph on $S = 3n - 2$ vertices together with two outside vertices, each joined to a single full triangle class and optionally adjacent to each other:
+\begin{itemize}
+\item For a paw blowup with at least two outside vertices, retain two outside vertices including at least one original pendant vertex (re-attaching the second outside vertex to the same hub class if it was isolated). Move all remaining pendant vertices into one of the two triangle classes different from their hub, and assign all remaining isolated vertices arbitrarily to triangle classes.
+\item For a bull or house blowup (which automatically has at least two outside vertices, one from each outside class), retain one vertex from each outside class. If the first outside class attaches to triangle class $A$ and the second attaches to triangle class $B$, move the remaining vertices of the first outside class into $B$, move the remaining vertices of the second outside class into $A$, and assign all isolated vertices to the third triangle class $C$. Every original edge---including edges between the two outside classes in the house---is preserved.
+\end{itemize}
+Since $A(G) \leq A(G')$ entrywise, Perron--Frobenius monotonicity gives $\rho(G) \leq \rho(G')$.
+
+Let $a_1, a_2, a_3 \geq 1$ ($a_1 + a_2 + a_3 = S = 3n - 2$) be the triangle class sizes of $G'$, let $v = (\sqrt{a_1}, \sqrt{a_2}, \sqrt{a_3})^T$, let $E \in \{0,1\}^{3 \times 2}$ record the attachment of each of the two outside vertices to its single triangle class, and let $F \in \{0,1\}^{2 \times 2}$ be the adjacency matrix on the two outside vertices. Symmetrizing the equitable quotient matrix yields
 \[
-p(x)=x^4-[a(1+c+d)+cd]x^2-2acdx+acd.
+Q = \begin{pmatrix}
+vv^T - \operatorname{diag}(a_1, a_2, a_3) & \operatorname{diag}(v) E \\
+E^T \operatorname{diag}(v) & F
+\end{pmatrix},
 \]
+with $\rho(G') = \lambda_{\max}(Q)$. Since $F$ is either $0$ or $\bigl(\begin{smallmatrix}0&1\\1&0\end{smallmatrix}\bigr)$, its operator norm is at most $1$. For $r = 2n - 2/3 \geq 16/3 > 3$, we have $rI_2 - F \succeq (r - 1)I_2 \succ 0$, hence $(rI_2 - F)^{-1} \preceq (r - 1)^{-1}I_2$. Writing $b_i \in \{0,1,2\}$ for the number of outside vertices attached to class $i$, we have $\sum_{i=1}^3 b_i = 2$ and $EE^T = \operatorname{diag}(b_1, b_2, b_3)$ because each outside vertex attaches to a single class. Taking the Schur complement of $rI_2 - F$ in $rI - Q$, we see that $rI - Q \succeq 0$ follows from
+\[
+\operatorname{diag}(r + k_i a_i) - vv^T \succeq 0, \qquad k_i := 1 - \frac{b_i}{r - 1} > 0,
+\]
+which holds since $r - 1 \geq 13/3 > 2 \geq b_i$. Because $\operatorname{diag}(r + k_i a_i) \succ 0$, this semidefinite inequality is equivalent to
+\[
+\sum_{i=1}^3 \frac{a_i}{r + k_i a_i} \leq 1.
+\]
+Set $W = \sum_{i=1}^3 1/k_i$ and apply Jensen's inequality with weights $(1/k_i)/W$ to the concave function $x \mapsto x/(r + x)$ at $x_i = k_i a_i$:
+\[
+\sum_{i=1}^3 \frac{a_i}{r + k_i a_i}
+= W \sum_{i=1}^3 \frac{1/k_i}{W} \frac{k_i a_i}{r + k_i a_i}
+\leq W \cdot \frac{S/W}{r + S/W}
+= \frac{WS}{Wr + S}.
+\]
+Because $t \mapsto (1 - t/(r-1))^{-1}$ is convex on $[0, 2]$, maximizing over $b_i \geq 0$ with $\sum_i b_i = 2$ gives
+\[
+W \leq 2 + \frac{1}{1 - 2/(r-1)} = 2 + \frac{1}{1 - b/r}, \qquad b := \frac{2r}{r - 1}.
+\]
+Note that $r - b = r(r - 3)/(r - 1) > 0$. Since $WS/(Wr + S)$ is increasing in $W$, substituting the upper bound $W_0 = (3r - 2b)/(r - b)$ shows that $W_0 S/(W_0 r + S) \leq 1$ is equivalent to
+\begin{equation}\label{eq:jensen-poly}
+3r^2 - 2(b + S)r + bS \geq 0.
+\end{equation}
+Writing $n = 3 + m$ ($m \geq 0$), the left-hand side of~\eqref{eq:jensen-poly} equals
+\[
+\frac{4(3m + 2)(3m + 8)}{3(6m + 13)} > 0,
+\]
+as verified in \texttt{\detokenize{verify_conjecture20.py}}. Therefore $\rho(G) \leq \rho(G') \leq 2n - 2/3$.
 
-For each of the three surviving nonincumbent triples, expansion in $n-6$ gives $p(1/3)>0$ and $p(-n+1/2)<0$. These six polynomial signs are checked in the verifier. The largest positive root is at least one because the graph has an edge. Thus the smaller positive root is above $1/3$. The negative polynomial value at $-n+1/2$ lies between the negative roots, so the second smallest eigenvalue exceeds $-n+1/2$. Both inequalities give positive spectral errors. Trace zero implies $D_1>2(1/3+1/2)>11/9$, while $D_2>(12/25)^2+(1/3)^2+(1/2)^2>7/12$. This excludes every nonincumbent paw blowup and proves uniqueness in both metrics.
+\emph{Case 2: Complete tripartite graphs with at least one isolated vertex.}
+Here the live complete tripartite subgraph has order $S \leq 3n - 1$ with class sizes $a_1, a_2, a_3 \geq 1$. Applying the same Jensen argument with $k_i = 1$ ($W = 3$) at $r_0 = 2S/3$ gives
+\[
+\sum_{i=1}^3 \frac{a_i}{2S/3 + a_i} \leq \frac{3S}{3(2S/3) + S} = 1,
+\]
+whence $\rho(G) \leq 2S/3 \leq 2n - 2/3$.
 
-\section*{Replay}
+\emph{Eliminating $\rho(G) \leq 2n - 2/3$.}
+Suppose $G$ competes and satisfies $\rho(G) \leq 2n - 2/3$. Since the errors at the two smallest eigenvalues satisfy $|\alpha_j - (-n)| < \max(11/9, \sqrt{7/12}) < n$ ($j \in \{N-1, N\}$), we have $\alpha_N \leq \alpha_{N-1} < 0 < \alpha_1$. Because $\operatorname{rank}(A(G)) \leq 4$, at most four eigenvalues of $G$ are nonzero, and they include indices $1, N-1, N$, which are the only nonzero coordinates of the target spectrum of $K_{n,n,n}$. Hence at most four coordinates $i \in \{1, \dots, N\}$ have nonzero error $e_i = \alpha_i - \gamma_i$, including $e_1 = \alpha_1 - 2n \leq -2/3$. Since $\sum_{i=1}^N e_i = 0$, the remaining at most three nonzero errors sum to $-e_1 \geq 2/3$. Thus
+\[
+D_1 \geq |e_1| + |-e_1| \geq \frac{4}{3} > \frac{11}{9},
+\]
+and by Cauchy--Schwarz on at most three terms,
+\[
+D_2 \geq e_1^2 + \frac{(-e_1)^2}{3} = \frac{4}{3} e_1^2 \geq \frac{16}{27} > \frac{7}{12},
+\]
+contradicting that $G$ competes. This leaves only complete tripartite graphs of full order $3n$ and full-order paw blowups with a single pendant vertex.
+\end{proof}
 
-Run with Python 3.10, NetworkX 3.3, NumPy 1.25.1, and SymPy 1.13.1.
+\section{Full-order complete tripartite graphs}
 
+For $n \in \{3, 4, 5\}$, the script \texttt{\detokenize{verify_conjecture20.py}} compares every full-order complete tripartite graph (except $K_{n,n,n}$) and every full-order single-pendant paw blowup (except $H_n$) directly against $H_n$ using exact rational root intervals on their quotient matrices, confirming strict inequalities in both $D_1$ and $D_2$ ($17$, $35$, and $59$ competitors, respectively). Assume henceforth that $n \geq 6$.
+
+\begin{proposition}\label{prop:tripartite}
+For every $n \geq 6$, no complete tripartite graph $K_{a,c,d}$ ($a + c + d = 3n$, $a,c,d \geq 1$) other than $K_{n,n,n}$ achieves $D_1 \leq D_1(K_{n,n,n}, H_n)$ or $D_2 \leq D_2(K_{n,n,n}, H_n)$.
+\end{proposition}
+
+\begin{proof}
+Suppose $G = K_{a,c,d}$ competes. Since $D_1 < 11/9$ implies every single coordinate error has magnitude less than $11/18 < 7/9$ (by trace zero) and $D_2 < 7/12 < (7/9)^2$ implies every coordinate error has magnitude less than $7/9$, both negative eigenvalues of $G$ have magnitudes strictly between $l := n - 7/9$ and $h := n + 7/9$.
+
+Consider the symmetric quotient $Q = vv^T - \operatorname{diag}(a, c, d)$ with $v = (\sqrt{a}, \sqrt{c}, \sqrt{d})^T$. Its eigenvalues are $\alpha_1 > 0 > \alpha_{N-1} \geq \alpha_N$, so $lI + Q$ has exactly two negative eigenvalues and $hI + Q$ is positive definite. Writing $lI + Q = \operatorname{diag}(l - a, l - c, l - d) + vv^T$ and noting that adding the positive semidefinite matrix $vv^T$ cannot increase the number of negative eigenvalues, at least two of $a, c, d$ exceed $l = n - 7/9$, hence are at least $n$. On the other hand, at most one of $a, c, d$ can exceed $n$: if two classes, say $a, c$, satisfied $a, c \geq n + 1 > h$, then the nonzero vector $w = (\sqrt{c}, -\sqrt{a}, 0)^T$ orthogonal to $v$ would give $w^T(hI + Q)w = c(h - a) + a(h - c) < 0$, contradicting $hI + Q \succ 0$.
+
+Thus at least one class equals $n$, and the sizes are $(n - k, n, n + k)$ in some order for an integer $k \geq 0$. If $k \geq 2$, evaluating $w^T(hI + Q)w > 0$ on the vector orthogonal to $v$ supported on the classes of sizes $n$ and $n + k$ gives
+\[
+h > \frac{2n(n + k)}{2n + k} \geq \frac{2n(n + 2)}{2n + 2} = n + \frac{n}{n + 1} > n + \frac{7}{9} = h,
+\]
+a contradiction (since $n/(n+1) > 7/9$ for all $n \geq 4$). The case $k = 0$ is $K_{n,n,n}$.
+
+Finally, $k = 1$ gives $K_{n-1,n,n+1}$, which is strictly worse than $H_n$ in both metrics by Theorem~15 of~\cite{JSS2026}. Directly, its $3 \times 3$ quotient matrix has characteristic polynomial $f(x) = x^3 - (3n^2 - 1)x - 2n(n^2 - 1)$, satisfying $f(-n + t) = n(1 - 3t^2) + t(t^2 + 1)$. Since $f(-\infty) = -\infty$, $f(-n) = n > 0$, and $f(0) = -2n(n^2-1) < 0$, we have $\alpha_N < -n < \alpha_{N-1} < 0 < \alpha_1$. Evaluating $f(-n + 1/\sqrt{3}) = 4/(3\sqrt{3}) > 0$ and $f(-n - 1/2) = n/4 - 5/8 > 0$ yields $\alpha_{N-1} + n > 1/\sqrt{3}$ and $-n - \alpha_N > 1/2$. Therefore, for all $n \geq 6$,
+\[
+D_1 \geq 2(\alpha_{N-1} + n) > \frac{2}{\sqrt{3}} > \frac{10}{9} \geq 1 + \frac{2}{3n} > D_1(K_{n,n,n}, H_n)
+\]
+and
+\[
+D_2 \geq (\alpha_{N-1} + n)^2 + (\alpha_N + n)^2 > \frac{1}{3} + \frac{1}{4} = \frac{7}{12} > D_2(K_{n,n,n}, H_n).\qedhere
+\]
+\end{proof}
+
+\section{Full-order paw blowups with one pendant vertex}\label{sec:paw}
+
+We continue to assume $n \geq 6$. Let $G$ be a full-order paw blowup with a single pendant vertex attached to a triangle class of size $a \geq 1$, and let $c, d \geq 1$ be the other two triangle class sizes, so $a + c + d = 3n - 1$. Notice that $(a, c, d) = (n - 1, n, n)$ yields $H_n$.
+
+\begin{proposition}\label{prop:paw}
+For every $n \geq 6$, every full-order single-pendant paw blowup $G$ with $(a, c, d) \neq (n - 1, n, n)$ satisfies $D_1 > 11/9$ and $D_2 > 7/12$.
+\end{proposition}
+
+\begin{proof}
+The induced paw subgraph has characteristic polynomial $(x + 1)(x^3 - x^2 - 3x + 1)$, which has two positive and two negative roots. By interlacing and $\operatorname{rank}(A(G)) \leq 4$, the four nonzero eigenvalues of $G$ satisfy $\alpha_1 \geq \alpha_2 > 0 > \alpha_{N-1} \geq \alpha_N$.
+
+We first bound the spectral radius by $\rho(G) \leq r := 2n - 12/25$. In the symmetric quotient
+\[
+Q = \begin{pmatrix}
+vv^T - \operatorname{diag}(a, c, d) & (\sqrt{a}, 0, 0)^T \\
+(\sqrt{a}, 0, 0) & 0
+\end{pmatrix}, \qquad v = (\sqrt{a}, \sqrt{c}, \sqrt{d})^T,
+\]
+eliminating the pendant vertex in $rI - Q$ (where $r > 1$) yields the Schur complement $\operatorname{diag}(r + (1 - 1/r)a, r + c, r + d) - vv^T$. Applying the Jensen inequality of Proposition~\ref{prop:outside} with $S = 3n - 1$, $b = 1$, and $W = 2 + (1 - 1/r)^{-1}$ exactly, we obtain $\rho(G) \leq r$ from $3r^2 - 2(1 + S)r + S \geq 0$, which holds for all $n \geq 3$ by expanding in $n - 3$ (checked in \texttt{\detokenize{verify_conjecture20.py}}).
+
+Now suppose $G$ competes, and set $l := n - 11/18$ and $h := n + 11/18$. If $D_1 < 11/9$, trace zero implies every coordinate error is strictly less than $11/18$. If $D_2 < 7/12$, the top eigenvalue error already contributes at least $(12/25)^2$, and $7/12 - (12/25)^2 < (11/18)^2$ (checked in \texttt{\detokenize{verify_conjecture20.py}}), so every other coordinate error is again strictly less than $11/18$. Thus both negative eigenvalue magnitudes $|\alpha_{N-1}|, |\alpha_N|$ lie in $(l, h)$.
+
+For $u \in \{l, h\}$, since $u > 0$, eliminating the pendant vertex in $uI + Q$ gives the Schur complement
+\[
+S(u) = \operatorname{diag}\bigl(u - a(1 + 1/u),\; u - c,\; u - d\bigr) + vv^T,
+\]
+which shares the negative inertia of $uI + Q$. Hence $S(l)$ has two negative eigenvalues and $S(h)$ is positive definite. By the rank-one perturbation argument from Proposition~\ref{prop:tripartite}, at least two of $a(1 + 1/l), c, d$ strictly exceed $l$, while at most one of $a(1 + 1/h), c, d$ can exceed $h$. Moreover, testing $w^T S(h) w > 0$ on the vector $w = (\sqrt{c}, -\sqrt{a}, 0)^T$ orthogonal to $v$ yields the necessary inequality
+\begin{equation}\label{eq:two-class}
+h > \frac{ac(2 + 1/h)}{a + c},
+\end{equation}
+with the same inequality for $(a, d)$, while between $c$ and $d$ we obtain $h > 2cd/(c + d)$. We now split on $a$:
+\begin{itemize}
+\item If $a \leq n - 2$, then $a(1 + 1/l) \leq (n - 2)(1 + 1/(n - 11/18)) < n - 1 < l$. Hence both $c, d > l$, so $c, d \geq n$, with at most one above $n$. Up to swapping $c$ and $d$, we have $(c, d) = (n, n + k)$ with $k = n - 1 - a \geq 1$. If $k \geq 2$, then $h > 2n(n + k)/(2n + k) \geq n + n/(n + 1) > h$, a contradiction. This leaves $(a, c, d) = (n - 2, n, n + 1)$.
+\item If $a \geq n + 1$, then $a(1 + 1/h) > a > h$, so both $c, d \leq n$, and by the condition at $l$ at least one of $c, d$ equals $n$ (say $c = n$). The right-hand side of~\eqref{eq:two-class} increases with $a$ and already exceeds $h$ at $(a, c) = (n + 1, n)$ for all $n \geq 6$, a contradiction.
+\item If $a = n$, then $n(1 + 1/h) > h$ (equivalently $n - \frac{11}{18}h > 0$, true for all $n \geq 6$). Thus $c, d \leq n$, and $c + d = 2n - 1$ forces $\{c, d\} = \{n - 1, n\}$, leaving $(a, c, d) = (n, n - 1, n)$ up to swapping $c, d$.
+\item If $a = n - 1$, then $c + d = 2n$. Assuming $c \geq d$, the right-hand side of~\eqref{eq:two-class} increases with $c$ and already exceeds $h$ at $(a, c) = (n - 1, n + 2)$ for all $n \geq 6$. Thus $c \in \{n, n + 1\}$, leaving the incumbent $(n - 1, n, n)$ and $(n - 1, n - 1, n + 1)$.
+\end{itemize}
+The two exclusions from~\eqref{eq:two-class} and the inequality $n - \frac{11}{18}h > 0$ are verified by clearing positive denominators and expanding in $n - 6$ in \texttt{\detokenize{verify_conjecture20.py}}.
+
+It remains to exclude the three nonincumbent triples $(n - 2, n, n + 1)$, $(n - 1, n - 1, n + 1)$, and $(n, n - 1, n)$. The characteristic polynomial of the $4 \times 4$ quotient matrix is
+\[
+p(x) = x^4 - \bigl(a(1 + c + d) + cd\bigr)x^2 - 2acdx + acd,
+\]
+as checked symbolically in \texttt{\detokenize{verify_conjecture20.py}}. For each of the three triples, expanding $p(1/3)$ and $-p(-n + 1/2)$ in $n - 6$ shows $p(1/3) > 0$ and $p(-n + 1/2) < 0$ for all $n \geq 6$ (all six polynomial signs are certified in \texttt{\detokenize{verify_conjecture20.py}}).
+
+Because $p$ is monic of degree $4$ with roots $\alpha_N \leq \alpha_{N-1} < 0 < \alpha_2 \leq \alpha_1$ and $\alpha_1 \geq 1 > 1/3$ (as $G$ has an edge), the inequality $p(1/3) > 0$ forces $\alpha_2 > 1/3$. Similarly, since $-n + 1/2 < 0 < \alpha_2$, the inequality $p(-n + 1/2) < 0$ places $-n + 1/2 \in (\alpha_N, \alpha_{N-1})$, forcing $\alpha_{N-1} > -n + 1/2$. Both coordinates $2$ and $N - 1$ contribute positive spectral errors ($\alpha_2 - 0 > 1/3$ and $\alpha_{N-1} - (-n) > 1/2$), so trace zero yields
+\[
+D_1 > 2\left(\frac{1}{3} + \frac{1}{2}\right) = \frac{5}{3} > \frac{11}{9},
+\]
+while combining coordinates $1$, $2$, and $N - 1$ gives
+\[
+D_2 > \left(\frac{12}{25}\right)^2 + \left(\frac{1}{3}\right)^2 + \left(\frac{1}{2}\right)^2 = \frac{13309}{22500} > \frac{7}{12}.
+\]
+Thus no nonincumbent paw blowup competes.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:conj20}]
+Combine Propositions~\ref{prop:rank-reduction}, \ref{prop:outside}, \ref{prop:tripartite}, and~\ref{prop:paw} with the exact small-$n$ verifications for $n \in \{3, 4, 5\}$ in \texttt{\detokenize{verify_conjecture20.py}}.
+\end{proof}
+
+\section*{Computational verification}
+
+All finite checks use exact rational arithmetic and rational root intervals (no floating-point comparisons) and can be replayed with Python~3.10+ (tested on Python~3.10 and~3.12 with NetworkX, NumPy, and SymPy):
 \begin{verbatim}
-python verify_rank_reduction.py --problem21
-python verify_conjecture20.py
+python3 verify_rank_reduction.py --problem21
+python3 verify_conjecture20.py
 \end{verbatim}
+The recorded outputs of these two commands are stored in the repository as \texttt{\detokenize{rank-certificate.jsonl}} and \texttt{\detokenize{conjecture20-certificate.jsonl}}.
 
-The finite checks in the proof use rational bounds.
+\begin{thebibliography}{1}
+\bibitem{JSS2026}
+Jovanovi\'{c}, Sedlar, and \v{S}krekovski,
+\href{https://arxiv.org/html/2610.18636v2#S5}{\texttt{arXiv:2610.18636v2}}.
+\end{thebibliography}
+
 \end{document}
